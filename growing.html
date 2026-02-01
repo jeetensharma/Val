@@ -11,9 +11,8 @@
         body {
             font-family: 'Crimson Pro', serif;
             background-color: #f3e1f5;
-            /* Prevent scrolling so the button stays visible */
-            overflow: hidden; 
-            touch-action: none; /* Helps with mobile touch events */
+            /* Allow vertical scrolling if the button gets HUGE */
+            overflow-x: hidden; 
         }
 
         @keyframes heart-beat {
@@ -23,35 +22,32 @@
         .animate-heart-beat {
             animation: heart-beat 1.5s ease-in-out infinite;
         }
-        
-        /* Smooth movement for the button */
-        #noBtn {
-            transition: all 0.2s ease-out;
-            position: relative; /* Starts relative, becomes absolute when moving */
-        }
 
+        #yesBtn {
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
         .no-select {
             user-select: none;
-            -webkit-user-select: none;
         }
     </style>
 </head>
-<body class="h-[100dvh] w-full flex items-center justify-center p-4">
+<body class="min-h-[100dvh] flex items-center justify-center p-4 sm:p-6 lg:p-8 overflow-y-auto">
 
-    <div id="card" class="bg-white rounded-[30px] md:rounded-[50px] shadow-xl w-full max-w-5xl relative flex flex-col items-center justify-center p-6 md:p-12 border border-white/50 z-10">
+    <div id="card" class="bg-white rounded-[30px] md:rounded-[50px] shadow-xl w-full max-w-5xl relative flex flex-col items-center justify-center p-6 md:p-12 transition-all duration-500 border border-white/50">
         
-        <div class="absolute top-4 right-4 w-20 h-20 md:w-32 md:h-32 opacity-90 no-select pointer-events-none">
+        <div class="absolute top-4 right-4 w-20 h-20 md:w-32 md:h-32 lg:w-40 lg:h-40 opacity-90 no-select pointer-events-none">
             <img src="https://csspicker.dev/api/image/?q=cute+bunny+with+heart&image_type=illustration" 
                  alt="bunny decor" class="w-full h-full object-contain">
         </div>
 
-        <div class="absolute bottom-4 left-4 w-20 h-20 md:w-32 md:h-32 opacity-90 transform -scale-x-100 no-select pointer-events-none">
+        <div class="absolute bottom-4 left-4 w-20 h-20 md:w-32 md:h-32 lg:w-40 lg:h-40 opacity-90 transform -scale-x-100 no-select pointer-events-none">
             <img src="https://csspicker.dev/api/image/?q=cute+bunny+heart&image_type=illustration" 
                  alt="bunny decor" class="w-full h-full object-contain">
         </div>
 
-        <div class="relative mb-6 md:mb-10 animate-heart-beat no-select mt-4">
-            <div class="relative z-10 w-28 h-28 md:w-40 md:h-40">
+        <div class="relative mb-6 md:mb-10 animate-heart-beat no-select mt-8">
+            <div class="relative z-10 w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48">
                 <svg viewBox="0 0 200 200" class="drop-shadow-xl w-full h-full">
                     <path d="M100 180 C100 180 20 140 20 80 C20 40 60 20 100 60 C140 20 180 40 180 80 C180 140 100 180 100 180 Z" fill="#ff4d4d"/>
                     <circle cx="75" cy="85" r="22" fill="black" />
@@ -70,61 +66,91 @@
             Ekta will you be my valentine?
         </h1>
 
-        <div class="flex flex-row items-center justify-center gap-6 md:gap-10 z-20 w-full mb-8 min-h-[80px]">
+        <div class="flex flex-wrap items-center justify-center gap-6 md:gap-10 z-20 w-full mb-8">
             
-            <button id="yesBtn" class="bg-[#ff1e7c] hover:bg-[#e61a6f] text-white font-semibold rounded-full shadow-lg hover:shadow-xl active:scale-95 whitespace-nowrap z-50 transition-colors text-xl px-8 py-3 md:px-10 md:py-4">
+            <button id="yesBtn" class="bg-[#ff1e7c] hover:bg-[#e61a6f] text-white font-semibold rounded-full shadow-lg hover:shadow-xl active:scale-95 whitespace-nowrap z-50 transition-colors"
+                    style="font-size: 1.25rem; padding: 12px 30px;">
                 Yes
             </button>
             
-            <button id="noBtn" class="bg-[#f3f4f6] text-gray-700 px-8 py-3 md:px-10 md:py-4 rounded-full text-xl font-medium shadow-sm whitespace-nowrap z-50">
+            <button id="noBtn" class="bg-[#f3f4f6] hover:bg-gray-200 text-gray-700 px-8 py-3 md:px-12 md:py-4 rounded-full text-lg md:text-xl font-medium transition-all duration-200 active:scale-95 shadow-sm whitespace-nowrap">
                 No
             </button>
         </div>
 
-        <p class="text-gray-500 text-base md:text-xl font-medium italic z-10 text-center">
+        <p id="footerText" class="text-gray-500 text-base md:text-xl font-medium italic z-10 transition-all duration-300 text-center px-4 pb-4">
             “No” seems a bit shy <span class="inline-block transform -rotate-12">😈</span>
         </p>
     </div>
 
-    <div id="successCard" class="hidden fixed inset-0 z-50 bg-white/95 backdrop-blur-sm flex-col items-center justify-center p-8 text-center animate-fade-in">
+    <div id="successCard" class="hidden bg-white rounded-[30px] md:rounded-[50px] shadow-xl w-full max-w-5xl min-h-[50vh] flex-col items-center justify-center p-8 text-center animate-fade-in">
         <img src="https://csspicker.dev/api/image/?q=cute+rabbit+celebrating&image_type=illustration" 
-             alt="celebration" class="w-40 h-40 md:w-64 md:h-64 mb-6 animate-bounce">
+             alt="celebration" class="w-32 h-32 md:w-56 md:h-56 mb-6 animate-bounce">
         <h1 class="text-4xl md:text-7xl font-serif text-gray-800">Yay! See you soon! ❤️</h1>
     </div>
 
     <script>
+        let noCount = 0;
         const yesBtn = document.getElementById('yesBtn');
         const noBtn = document.getElementById('noBtn');
+        const footerText = document.getElementById('footerText');
+        const card = document.getElementById('card');
         const successCard = document.getElementById('successCard');
 
-        // --- THE RUNAWAY LOGIC ---
-        
-        // Use 'mouseover' for laptops and 'touchstart' for phones
-        noBtn.addEventListener('mouseover', moveButton);
-        noBtn.addEventListener('touchstart', moveButton);
+        // Arrays to match the texts together
+        const btnTexts = [
+            "Are you sure?", 
+            "Really sure?", 
+            "Think again!", 
+            "Last chance!", 
+            "Have a heart!", 
+            "Don't be cold!",
+            "Change of heart?",
+            "I'm gonna cry...",
+            "You're breaking me!",
+            "Okay fine..."
+        ];
 
-        function moveButton(e) {
-            // Prevent default touch behavior (scrolling/zooming) on the button
-            if(e && e.preventDefault) e.preventDefault();
+        const footerTexts = [
+            "Playing hard to get, huh? 😉", 
+            "But look at the cute bunny! 🐰", 
+            "The 'Yes' button is growing... 📈", 
+            "There is no escape now! 🔒", 
+            "You know you want to say Yes! 💖",
+            "I can do this all day! 🕐",
+            "Just click the Pink one! 🎀",
+            "Please? 🥺",
+            "Pretty please with a cherry on top? 🍒",
+            "Just click YES already! 😂"
+        ];
 
-            // 1. Calculate the available screen space
-            // We subtract the button size so it doesn't go off the edge
-            const maxX = window.innerWidth - noBtn.offsetWidth - 20;
-            const maxY = window.innerHeight - noBtn.offsetHeight - 20;
+        // Logic for clicking NO
+        noBtn.addEventListener('click', () => {
+            noCount++;
+            
+            // 1. Increase Yes Button Size
+            // Capping growth to avoid breaking the screen completely
+            const maxSize = 150; 
+            let fontSize = Math.min(20 + (noCount * 12), maxSize);
+            let paddingVertical = Math.min(12 + (noCount * 8), maxSize);
+            let paddingHorizontal = Math.min(30 + (noCount * 12), maxSize);
 
-            // 2. Generate random coordinates
-            const randomX = Math.random() * maxX;
-            const randomY = Math.random() * maxY;
+            yesBtn.style.fontSize = `${fontSize}px`;
+            yesBtn.style.padding = `${paddingVertical}px ${paddingHorizontal}px`;
+            
+            // 2. Update Text on No Button
+            // If we run out of texts, use the last one in the list
+            const btnIndex = Math.min(noCount - 1, btnTexts.length - 1);
+            noBtn.innerText = btnTexts[btnIndex];
 
-            // 3. Apply the new position
-            // 'fixed' breaks it out of the layout so it can fly anywhere
-            noBtn.style.position = 'fixed';
-            noBtn.style.left = randomX + 'px';
-            noBtn.style.top = randomY + 'px';
-        }
+            // 3. Update Text in Footer (Matching the mood)
+            const footerIndex = Math.min(noCount - 1, footerTexts.length - 1);
+            footerText.innerText = footerTexts[footerIndex];
+        });
 
         // Logic for clicking YES
         yesBtn.addEventListener('click', () => {
+            card.style.display = 'none';
             successCard.classList.remove('hidden');
             successCard.classList.add('flex');
         });
